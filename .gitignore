@@ -5,5 +5,5 @@
 !*.go
 !go.mod
 !*.sh
-!.message
+!message
 !readme.md

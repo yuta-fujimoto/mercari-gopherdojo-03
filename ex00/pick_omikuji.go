@@ -16,7 +16,7 @@ type omikujiList struct {
 }
 
 const (
-	fileName = ".message"
+	fileName = "message"
 )
 
 func (p *omikujiList) init() error {
