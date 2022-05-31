@@ -10,24 +10,24 @@ import (
 	"time"
 )
 
+const (
+	fortunesCnt = 7
+)
+
+var (
+	fortunes      = [fortunesCnt]string{"Dai-kichi", "Kichi", "Chuu-kichi", "Sho-kichi", "Sue-kichi", "Kyo", "Dai-kyo"}
+	omikujiPicker = omikujiList{}
+)
+
 type omikjiJson struct {
 	No      int    `json:"number"`
 	Fortune string `json:"fortune"`
 	Message string `json:"message"`
 }
 
-const (
-	fortunesCnt = 7
-)
-
 type Today interface {
 	Date() (int, time.Month, int)
 }
-
-var (
-	fortunes      = [fortunesCnt]string{"Dai-kichi", "Kichi", "Chuu-kichi", "Sho-kichi", "Sue-kichi", "Kyo", "Dai-kyo"}
-	omikujiPicker = omikujiList{}
-)
 
 func getFortuneIdx(t Today) int {
 	_, month, day := t.Date()
