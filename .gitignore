@@ -1,0 +1,9 @@
+*
+
+!*/
+!.gitignore
+!*.go
+!go.mod
+!*.sh
+!.message
+!readme.md
