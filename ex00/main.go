@@ -37,7 +37,7 @@ func getFortuneIdx(t Today) int {
 	return rand.Intn(len(fortunes))
 }
 
-func OmikujiHandler(w http.ResponseWriter, r *http.Request) {
+func omikujiHandler(w http.ResponseWriter, r *http.Request) {
 	idx := getFortuneIdx(time.Now())
 	picked := omikujiPicker.pick(idx)
 	result := omikjiJson{No: picked.no, Fortune: fortunes[idx], Message: picked.msg}
@@ -68,7 +68,7 @@ func main() {
 
 	rand.Seed(time.Now().UnixNano())
 
-	http.HandleFunc("/", OmikujiHandler)
+	http.HandleFunc("/", omikujiHandler)
 	if err := http.ListenAndServe(":"+flag.Arg(0), nil); err != nil {
 		fmt.Fprintln(os.Stderr, err)
 		os.Exit(1)

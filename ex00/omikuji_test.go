@@ -9,12 +9,12 @@ import (
 	"time"
 )
 
-func containsFortunes(arr [fortunesCnt]string, str string, t *testing.T) bool{
+func containsFortunes(arr [fortunesCnt]string, str string, t *testing.T) bool {
 	t.Helper()
-	for _, v := range arr{
-	  if v == str{
-		return true
-	  }
+	for _, v := range arr {
+		if v == str {
+			return true
+		}
 	}
 	return false
 }
@@ -23,12 +23,12 @@ func TestHandler(t *testing.T) {
 	var v omikjiJson
 	if err := omikujiPicker.init(); err != nil {
 		t.Fatal(err.Error())
-	} 
+	}
 
 	// httptest.NewRequest()
 	w := httptest.NewRecorder()
 	r := httptest.NewRequest(http.MethodGet, "/", nil)
-	OmikujiHandler(w, r)
+	omikujiHandler(w, r)
 	rw := w.Result()
 	defer rw.Body.Close()
 
@@ -45,16 +45,15 @@ func TestHandler(t *testing.T) {
 	if v.No < 1 || v.No > 100 {
 		t.Fatal("unexpected number")
 	}
-	if !containsFortunes(fortunes ,v.Fortune, t) {
+	if !containsFortunes(fortunes, v.Fortune, t) {
 		t.Fatal("unexpected fortunes")
 	}
 }
 
-
 type TodayMock struct {
-	year int
+	year  int
 	month time.Month
-	day int
+	day   int
 }
 
 func (t *TodayMock) Date() (int, time.Month, int) {
@@ -66,7 +65,7 @@ func TestGetFortunesIdx(t *testing.T) {
 		date TodayMock
 		want int
 		name string
-	} {
+	}{
 		{
 			TodayMock{year: 2022, month: time.January, day: 1},
 			0,
