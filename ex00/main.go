@@ -4,7 +4,6 @@ import (
 	"flag"
 	"log"
 	"math/rand"
-	"omikuji/server"
 	"time"
 )
 
@@ -16,5 +15,5 @@ func main() {
 
 	rand.Seed(time.Now().UnixNano())
 
-	server.Run(flag.Args()[0])
+	Run(flag.Args()[0])
 }

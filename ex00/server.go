@@ -1,4 +1,4 @@
-package server
+package main
 
 import (
 	"encoding/json"
@@ -8,7 +8,8 @@ import (
 	"omikuji/omikuji_picker"
 )
 
-type omikujiJson struct {
+
+type OmikujiJson struct {
 	Number  int    `json:"number"`
 	Fortune string `json:"fortune"`
 	Message string `json:"message"`
@@ -16,7 +17,7 @@ type omikujiJson struct {
 
 func omikujiHandler(w http.ResponseWriter, r *http.Request) {
 	picked := omikuji_picker.Pick()
-	result := omikujiJson{Number: picked.Number, Fortune: picked.Fortune.String(), Message: picked.Msg}
+	result := OmikujiJson{Number: picked.Number, Fortune: picked.Fortune.String(), Message: picked.Msg}
 
 	json, err := json.Marshal(result)
 	if err != nil {

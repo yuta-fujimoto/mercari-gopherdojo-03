@@ -10,7 +10,7 @@ import (
 )
 
 const (
-	fileName = "omikuji_picker/message.json"
+	fileName = "message.json"
 )
 
 type Fortune int
@@ -47,7 +47,6 @@ func (f Fortune) String() string {
 	return ""
 }
 
-
 type omikuji struct {
 	Number  int
 	Fortune Fortune
@@ -74,7 +73,7 @@ func init() {
 	if err != nil {
 		log.Fatal(err.Error())
 	}
-	
+
 	type Data struct {
 		Fortune int
 		Msg     string
@@ -106,8 +105,7 @@ func Pick() omikuji {
 	if isNewYear(month, day) {
 		picked = newYearOmikujiList[rand.Intn(len(newYearOmikujiList))]
 	} else {
-		picked = omikujiList[rand.Intn(len(newYearOmikujiList))]
+		picked = omikujiList[rand.Intn(len(omikujiList))]
 	}
-
 	return picked
 }
