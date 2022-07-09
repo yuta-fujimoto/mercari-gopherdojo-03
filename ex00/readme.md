@@ -1,3 +1,3 @@
 # omikuji API
 
-* data resource: 元三大師百籤
+* data resource: https://omikuji-guide.com/number/
