@@ -3,7 +3,6 @@ package omikuji_picker
 import (
 	"encoding/json"
 	"fmt"
-	"log"
 	"math/rand"
 	"os"
 	"time"
@@ -42,7 +41,8 @@ func (f Fortune) String() string {
 	case Daikyo:
 		return "Dai-kyo"
 	default:
-		log.Fatal("fortune.String(): unknown value")
+		fmt.Fprintln(os.Stderr, "fortune.String(): unknown value")
+		os.Exit(1)
 	}
 	return ""
 }
@@ -71,7 +71,8 @@ func init() {
 	dec := json.NewDecoder(jsonFile)
 	_, err = dec.Token()
 	if err != nil {
-		log.Fatal(err.Error())
+		fmt.Fprintln(os.Stderr, err.Error())
+		os.Exit(1)
 	}
 
 	type Data struct {
@@ -83,7 +84,8 @@ func init() {
 	for dec.More() {
 		err := dec.Decode(&d)
 		if err != nil {
-			log.Fatal(err.Error())
+			fmt.Fprintln(os.Stderr, err.Error())
+			os.Exit(1)
 		}
 		omikujiList = append(omikujiList,
 			omikuji{Number: number, Fortune: Fortune(d.Fortune), Msg: d.Msg})
@@ -99,8 +101,9 @@ func isNewYear(month time.Month, day int) bool {
 	return month == time.January && (day >= 1 && day <= 3)
 }
 
-func Pick() omikuji {
-	_, month, day := time.Now().Date()
+func Pick(today Today) omikuji {
+	// time.Date().Day().
+	_, month, day := today.Date()
 	var picked omikuji
 	if isNewYear(month, day) {
 		picked = newYearOmikujiList[rand.Intn(len(newYearOmikujiList))]

@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 	"omikuji/omikuji_picker"
+	"time"
 )
 
 
@@ -16,7 +17,7 @@ type OmikujiJson struct {
 }
 
 func omikujiHandler(w http.ResponseWriter, r *http.Request) {
-	picked := omikuji_picker.Pick()
+	picked := omikuji_picker.Pick(time.Now())
 	result := OmikujiJson{Number: picked.Number, Fortune: picked.Fortune.String(), Message: picked.Msg}
 
 	json, err := json.Marshal(result)

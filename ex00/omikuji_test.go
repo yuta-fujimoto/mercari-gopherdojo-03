@@ -5,7 +5,9 @@ import (
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
+	"omikuji/omikuji_picker"
 	"testing"
+	"time"
 )
 
 func validateFortune(t *testing.T, s string) {
@@ -55,45 +57,45 @@ func TestHandler(t *testing.T) {
 	validateFortune(t, v.Fortune)
 }
 
-// type TodayMock struct {
-// 	year  int
-// 	month time.Month
-// 	day   int
-// }
+type TodayMock struct {
+	year  int
+	month time.Month
+	day   int
+}
 
-// func (t *TodayMock) Date() (int, time.Month, int) {
-// 	return t.year, t.month, t.day
-// }
+func (t *TodayMock) Date() (int, time.Month, int) {
+	return t.year, t.month, t.day
+}
 
-// func TestGetFortunesIdx(t *testing.T) {
-// 	cases := []struct {
-// 		date TodayMock
-// 		want int
-// 		name string
-// 	}{
-// 		{
-// 			TodayMock{year: 2022, month: time.January, day: 1},
-// 			0,
-// 			"1/1",
-// 		},
-// 		{
-// 			TodayMock{year: 2022, month: time.January, day: 2},
-// 			0,
-// 			"1/2",
-// 		},
-// 		{
-// 			TodayMock{year: 2022, month: time.January, day: 3},
-// 			0,
-// 			"1/3",
-// 		},
-// 	}
-// 	for _, td := range cases {
-// 		td := td
-// 		t.Run(td.name, func(t *testing.T) {
-// 			got := getFortuneIdx(&td.date)
-// 			if td.want != got {
-// 				t.Fatalf("got: %d, want %d", got, td.want)
-// 			}
-// 		})
-// 	}
-// }
+func TestPick(t *testing.T) {
+	cases := []struct {
+		date TodayMock
+		want omikuji_picker.Fortune
+		name string
+	}{
+		{
+			TodayMock{year: 2022, month: time.January, day: 1},
+			omikuji_picker.Daikichi,
+			"1/1",
+		},
+		{
+			TodayMock{year: 2022, month: time.January, day: 2},
+			omikuji_picker.Daikichi,
+			"1/2",
+		},
+		{
+			TodayMock{year: 2022, month: time.January, day: 3},
+			omikuji_picker.Daikichi,
+			"1/3",
+		},
+	}
+	for _, td := range cases {
+		td := td
+		t.Run(td.name, func(t *testing.T) {
+			got := omikuji_picker.Pick(&td.date)
+			if td.want != got.Fortune {
+				t.Fatalf("got: %d, want %d", got.Fortune, td.want)
+			}
+		})
+	}
+}
