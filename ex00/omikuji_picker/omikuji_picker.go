@@ -71,7 +71,7 @@ func ReadFile(fn string) error {
 	if err != nil {
 		return err
 	}
-	
+
 	type Data struct {
 		Fortune int
 		Msg     string

@@ -9,7 +9,6 @@ import (
 	"time"
 )
 
-
 type OmikujiJson struct {
 	Number  int    `json:"number"`
 	Fortune string `json:"fortune"`

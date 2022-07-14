@@ -110,7 +110,7 @@ func TestReadFile(t *testing.T) {
 	if err == nil {
 		t.Error("expected error")
 	}
-	
+
 	file, err := os.CreateTemp("", "")
 	if err != nil {
 		t.Fatal("failed to create tmp file")
