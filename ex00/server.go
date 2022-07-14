@@ -33,7 +33,11 @@ func omikujiHandler(w http.ResponseWriter, r *http.Request) {
 
 func Run(port string) {
 	http.HandleFunc("/", omikujiHandler)
-	if err := http.ListenAndServe(":"+port, nil); err != nil {
+	err := omikuji_picker.ReadFile("message.json")
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+	if err = http.ListenAndServe(":"+port, nil); err != nil {
 		log.Fatal(err.Error())
 	}
 }

@@ -8,10 +8,12 @@ import (
 	"time"
 )
 
-const (
-	fileName = "message.json"
-)
+// Mock
+type Today interface {
+	Date() (int, time.Month, int)
+}
 
+// Fortune
 type Fortune int
 
 const (
@@ -47,6 +49,7 @@ func (f Fortune) String() string {
 	return ""
 }
 
+// omikuji
 type omikuji struct {
 	Number  int
 	Fortune Fortune
@@ -56,25 +59,19 @@ type omikuji struct {
 var omikujiList []omikuji
 var newYearOmikujiList []omikuji
 
-type Today interface {
-	Date() (int, time.Month, int)
-}
-
-func init() {
-	jsonFile, err := os.Open(fileName)
+func ReadFile(fn string) error {
+	jsonFile, err := os.Open(fn)
 	if err != nil {
-		fmt.Fprintln(os.Stderr, err)
-		os.Exit(1)
+		return err
 	}
 	defer jsonFile.Close()
 
 	dec := json.NewDecoder(jsonFile)
 	_, err = dec.Token()
 	if err != nil {
-		fmt.Fprintln(os.Stderr, err.Error())
-		os.Exit(1)
+		return err
 	}
-
+	
 	type Data struct {
 		Fortune int
 		Msg     string
@@ -84,8 +81,7 @@ func init() {
 	for dec.More() {
 		err := dec.Decode(&d)
 		if err != nil {
-			fmt.Fprintln(os.Stderr, err.Error())
-			os.Exit(1)
+			return err
 		}
 		omikujiList = append(omikujiList,
 			omikuji{Number: number, Fortune: Fortune(d.Fortune), Msg: d.Msg})
@@ -95,6 +91,7 @@ func init() {
 		}
 		number++
 	}
+	return nil
 }
 
 func isNewYear(month time.Month, day int) bool {
@@ -102,9 +99,9 @@ func isNewYear(month time.Month, day int) bool {
 }
 
 func Pick(today Today) omikuji {
-	// time.Date().Day().
 	_, month, day := today.Date()
 	var picked omikuji
+
 	if isNewYear(month, day) {
 		picked = newYearOmikujiList[rand.Intn(len(newYearOmikujiList))]
 	} else {

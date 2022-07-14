@@ -15,7 +15,7 @@ go build
 ./omikuji $PORT &
 
 # send request
-JSON_RESPONSE=$(curl $URL)
+JSON_RESPONSE=$(curl -v $URL)
 echo $JSON_RESPONSE | jq "."
 
 # end server
